@@ -1,4 +1,3 @@
-import apiFetch from '@wordpress/api-fetch';
 import { dispatch } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 
@@ -169,7 +168,13 @@ class AppleMap {
 	}
 
 	static authenticateMap(mapkit) {
-		apiFetch({ path: 'MapsBlockApple/v1/GetJWT/' })
+		fetch('/wp-json/MapsBlockApple/v1/GetJWT/')
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+				return response.json();
+			})
 			.then(() => {
 				mapkit.init({
 					authorizationCallback(done) {
@@ -180,9 +185,17 @@ class AppleMap {
 						 * @see https://github.com/10up/maps-block-apple/issues/48
 						 * @see https://github.com/10up/maps-block-apple/pull/52
 						 */
-						apiFetch({ path: 'MapsBlockApple/v1/GetJWT/' }).then(
-							done
-						);
+						fetch('/wp-json/MapsBlockApple/v1/GetJWT/')
+							.then(response => {
+								if (!response.ok) {
+									throw new Error('Network response was not ok');
+								}
+								return response.json();
+							})
+							.then(done)
+							.catch(error => {
+								console.error('Error fetching new token:', error);
+							});
 					},
 				});
 			})
