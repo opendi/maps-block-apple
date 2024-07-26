@@ -1,6 +1,5 @@
 name: Build release zip
 
-
 on:
   workflow_dispatch:
   workflow_call:
