@@ -185,7 +185,13 @@ class AppleMap {
 						 * @see https://github.com/10up/maps-block-apple/issues/48
 						 * @see https://github.com/10up/maps-block-apple/pull/52
 						 */
-						fetch('/wp-json/MapsBlockApple/v1/GetJWT/')
+						fetch('/wp-json/MapsBlockApple/v1/GetJWT/', {
+							method: 'GET',
+							headers: {
+								'Cache-Control': 'no-cache',
+								'Pragma': 'no-cache'
+							}
+						})
 							.then(response => {
 								if (!response.ok) {
 									throw new Error('Network response was not ok');

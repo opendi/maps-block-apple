@@ -85,7 +85,7 @@ function get_jwt() {
 	$body = [
 		'iss'    => $team_id,
 		'iat'    => time(),
-		'exp'    => time() + 30,
+		'exp'    => time() + 1800,
 		'origin' => get_fqdn_from_url( get_site_url() ),
 	];
 
