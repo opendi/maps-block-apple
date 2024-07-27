@@ -1,5 +1,5 @@
-import { dispatch } from '@wordpress/data';
-import { __ } from '@wordpress/i18n';
+import {dispatch} from '@wordpress/data';
+import {__} from '@wordpress/i18n';
 
 class AppleMap {
 	constructor(element) {
@@ -125,7 +125,7 @@ class AppleMap {
 			};
 			// Use custom glyph image if provided.
 			if (glyphImage) {
-				markerAnnotationOptions.glyphImage = { 1: glyphImage };
+				markerAnnotationOptions.glyphImage = {1: glyphImage};
 			}
 			const marker = new this.mapkit.MarkerAnnotation(
 				position,
@@ -135,13 +135,13 @@ class AppleMap {
 			if (this.setAttributes) {
 				marker.addEventListener('drag-end', (event) => {
 					const {
-						target: { coordinate },
+						target: {coordinate},
 					} = event;
 					const newMarkers = [...markers];
 					newMarkers[index].latitude = coordinate.latitude;
 					newMarkers[index].longitude = coordinate.longitude;
 
-					this.setAttributes({ markers: newMarkers });
+					this.setAttributes({markers: newMarkers});
 				});
 
 				/*
@@ -169,7 +169,7 @@ class AppleMap {
 
 	static authenticateMap(mapkit) {
 		fetch('/wp-json/MapsBlockApple/v1/GetJWT/')
-			.then(response => {
+			.then((response) => {
 				if (!response.ok) {
 					throw new Error('Network response was not ok');
 				}
@@ -189,18 +189,23 @@ class AppleMap {
 							method: 'GET',
 							headers: {
 								'Cache-Control': 'no-cache',
-								'Pragma': 'no-cache'
-							}
+								Pragma: 'no-cache',
+							},
 						})
-							.then(response => {
+							.then((response) => {
 								if (!response.ok) {
-									throw new Error('Network response was not ok');
+									throw new Error(
+										'Network response was not ok'
+									);
 								}
 								return response.json();
 							})
 							.then(done)
-							.catch(error => {
-								console.error('Error fetching new token:', error);
+							.catch((error) => {
+								console.error(
+									'Error fetching new token:',
+									error
+								);
 							});
 					},
 				});
@@ -257,7 +262,7 @@ class AppleMapEdit extends AppleMap {
 
 		// change the mapType attribute when it gets changed inside the map
 		this.map.addEventListener('map-type-change', () => {
-			this.setAttributes({ mapType: this.map.mapType });
+			this.setAttributes({mapType: this.map.mapType});
 		});
 
 		// update the region settings when the map gets moved around
@@ -396,4 +401,4 @@ const FEATURE_VISIBILITY_OPTIONS = Object.keys(mapkit.FeatureVisibility).map(
 	}
 );
 
-export { AppleMap, AppleMapEdit, MAP_TYPE_OPTIONS, FEATURE_VISIBILITY_OPTIONS };
+export {AppleMap, AppleMapEdit, MAP_TYPE_OPTIONS, FEATURE_VISIBILITY_OPTIONS};

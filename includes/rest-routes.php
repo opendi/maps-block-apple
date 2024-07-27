@@ -50,6 +50,7 @@ function encode( $string ) {
  * @return [WP_REST_Response]
  */
 function get_jwt() {
+	$key_exp	 = 1800;
 	$private_key = get_setting( 'private_key' );
 	$key_id      = get_setting( 'key_id' );
 	$team_id     = get_setting( 'team_id' );
@@ -85,7 +86,7 @@ function get_jwt() {
 	$body = [
 		'iss'    => $team_id,
 		'iat'    => time(),
-		'exp'    => time() + 1800,
+		'exp'    => time() + $key_exp,
 		'origin' => get_fqdn_from_url( get_site_url() ),
 	];
 
@@ -108,7 +109,9 @@ function get_jwt() {
 	}
 
 	$response = $payload . '.' . encode( $signature );
-	return new WP_REST_Response( $response, 200 );
+	$rest_response = new WP_REST_Response( $response, 200 );
+	$rest_response->header( 'Cache-Control', 'no-store' ); // Prevent client-side caching
+	$rest_response->header( 'Cloudflare-CDN-Cache-Control', 'max-age=' . ($key_exp-10) ); // Enable Cloudflare caching
 }
 
 /**
