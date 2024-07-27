@@ -112,6 +112,8 @@ function get_jwt() {
 	$rest_response = new WP_REST_Response( $response, 200 );
 	$rest_response->header( 'Cache-Control', 'no-store' ); // Prevent client-side caching
 	$rest_response->header( 'Cloudflare-CDN-Cache-Control', 'max-age=' . ($key_exp-10) ); // Enable Cloudflare caching
+
+	return $rest_response;
 }
 
 /**

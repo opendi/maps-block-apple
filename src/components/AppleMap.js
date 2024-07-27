@@ -148,8 +148,8 @@ class AppleMap {
 				 * Focus the Marker setting when the marker is selected
 				 *
 				 * marker.addEventListener( 'select', ( event ) => {
-				 * 		const identifier =
-				 * 			this.map.annotations.indexOf( event.target );
+				 *         const identifier =
+				 *             this.map.annotations.indexOf( event.target );
 				 * } );
 				 */
 			}
